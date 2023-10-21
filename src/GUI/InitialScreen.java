@@ -2,14 +2,12 @@ package GUI;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class initialScreen extends JFrame {
+public class InitialScreen extends JFrame {
     public static JPanel cardPanel;
-    private CardLayout cardLayout;
+    public static CardLayout cardLayout;
 
-    public initialScreen() {
+    public InitialScreen() {
         initializeUI();
     }
 
@@ -17,6 +15,10 @@ public class initialScreen extends JFrame {
         this.setTitle("Mortal Kombat");
         this.setSize(700, 400);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int centerX = (screenSize.width - this.getWidth()) / 2;
+        int centerY = (screenSize.height - this.getHeight()) / 2;
+        this.setLocation(centerX, centerY);
 
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
@@ -27,10 +29,14 @@ public class initialScreen extends JFrame {
         // Create new screen
         JPanel playerWithPlayerScreen = new JPanel();
         JPanel playerWithAIScreen = new JPanel();
+        JPanel playerWithPlayerName = new JPanel();
+        JPanel playerWithAIName = new JPanel();
 
         cardPanel.add(initialScreen, "initial");
         cardPanel.add(playerWithPlayerScreen, "playerWithPlayerScreen");
+        cardPanel.add(playerWithPlayerName, "playerWithPlayerName");
         cardPanel.add(playerWithAIScreen, "playerWithAIScreen");
+        cardPanel.add(playerWithAIName, "playerWithAIName");
 
         this.add(cardPanel, BorderLayout.CENTER);
 
@@ -56,21 +62,12 @@ public class initialScreen extends JFrame {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
         JButton button1 = new JButton("1 Player");
-        button1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cardLayout.show(cardPanel, "playerWithAIScreen");
-                playerWithAI();
-            }
-        });
+        button1.addActionListener(e -> cardLayout.show(cardPanel, "playerWithAIName"));
 
         JButton button2 = new JButton("2 Players");
-        button2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cardLayout.show(cardPanel, "playerWithPlayerScreen");
-                playerWithPlayer();
-            }
+        button2.addActionListener(e -> {
+            cardLayout.show(cardPanel, "playerWithPlayerName");
+            playerWithPlayerName();
         });
 
         buttonPanel.add(button1);
@@ -82,11 +79,7 @@ public class initialScreen extends JFrame {
         return panel;
     }
 
-    private void playerWithPlayer() {
-        new playerWithPlayer();
-    }
-
-    private void playerWithAI() {
-
+    private void playerWithPlayerName() {
+        new PlayerWithPlayerName();
     }
 }
