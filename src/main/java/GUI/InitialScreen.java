@@ -63,17 +63,13 @@ public class InitialScreen extends JFrame {
 
         JButton gameHistory = new JButton("Game History");
         gameHistory.addActionListener(e -> {
-            String filePath = "../Misc/History.json";
-            File jsonFile = new File(filePath);
-            if (Desktop.isDesktopSupported()) {
+            try {
+                String currentDirectory = System.getProperty("user.dir") + "/src/main/java/Misc/History.json";
+                File jsonFile = new File(currentDirectory);
                 Desktop desktop = Desktop.getDesktop();
-                try {
-                    desktop.open(jsonFile);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            } else {
-                System.out.println("Desktop is not supported on this platform.");
+                desktop.open(jsonFile);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
             }
         });
 
