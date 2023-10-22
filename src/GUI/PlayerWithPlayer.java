@@ -13,7 +13,7 @@ public class PlayerWithPlayer {
         playerWithPlayerScreen.setLayout(null);
 
         Player player1 = PlayerWithPlayerName.player1;
-        Player player2 = PlayerWithPlayerName.player1;
+        Player player2 = PlayerWithPlayerName.player2;
 
         JButton Player1ButtonA = new JButton("M");
         JButton Player1ButtonS = new JButton("S");
@@ -25,7 +25,19 @@ public class PlayerWithPlayer {
 
         JLabel player1Name = new JLabel(player1.getName());
         JLabel player2Name = new JLabel(player2.getName());
+        JButton InitialScreenButton = new JButton("Back");
 
+        InitialScreenButton.addActionListener(e -> {
+            InitialScreen.cardLayout.show(InitialScreen.cardPanel, "initial");
+            PlayerWithPlayerName.player1 = null;
+            PlayerWithPlayerName.player2 = null;
+            player1Name.setText("");
+            player2Name.setText("");
+            player1Name.repaint();
+            player2Name.repaint();
+        });
+
+        InitialScreenButton.setBounds(10, 10, 50, 20);
         Player1ButtonA.setBounds(70, 100, 70, 30);
         Player1ButtonS.setBounds(140, 100, 70, 30);
         Player1ButtonD.setBounds(210, 100, 70, 30);
@@ -36,6 +48,8 @@ public class PlayerWithPlayer {
 
         player1Name.setBounds(140, 50, 100, 20);
         player2Name.setBounds(490, 50, 100, 20);
+
+        playerWithPlayerScreen.add(InitialScreenButton);
 
         playerWithPlayerScreen.add(Player1ButtonA);
         playerWithPlayerScreen.add(Player1ButtonS);

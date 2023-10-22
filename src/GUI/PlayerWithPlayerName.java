@@ -11,7 +11,7 @@ import javax.swing.text.DocumentFilter;
 public class PlayerWithPlayerName {
     public static Player player1;
     public static Player player2;
-    public PlayerWithPlayerName() {
+    public static void PlayerWithPlayerNameInitialization() {
         JPanel cardPanel = InitialScreen.cardPanel;
         JPanel playerWithPlayerName = (JPanel) cardPanel.getComponent(2);
         playerWithPlayerName.setLayout(null);
@@ -21,6 +21,9 @@ public class PlayerWithPlayerName {
         JLabel Player1Label = new JLabel("Enter Player 1 username");
         JLabel Player2Label = new JLabel("Enter Player 2 username");
         JButton StartButton = new JButton("Fight!");
+        JButton InitialScreenButton = new JButton("Back");
+
+        InitialScreenButton.setBounds(10, 10, 50, 20);
         StartButton.setBounds(310, 140, 80, 20);
         Player1.setBounds(88, 70, 200, 20);
         Player2.setBounds(428, 70, 200, 20);
@@ -33,12 +36,21 @@ public class PlayerWithPlayerName {
         playerWithPlayerName.add(Player1Label);
         playerWithPlayerName.add(Player2Label);
         playerWithPlayerName.add(StartButton);
+        playerWithPlayerName.add(InitialScreenButton);
+
+        InitialScreenButton.addActionListener(e -> {
+            InitialScreen.cardLayout.show(InitialScreen.cardPanel, "initial");
+            player1 = null;
+            player2 = null;
+        });
 
         StartButton.addActionListener(e -> {
             String name1 = Player1.getText(), name2 = Player2.getText();
             if (name1.length() != 0 && name2.length() != 0) {
                 player1 = new Player(Player1.getText());
                 player2 = new Player(Player2.getText());
+                Player1.setText("");
+                Player2.setText("");
 
                 new PlayerWithPlayer();
                 InitialScreen.cardLayout.show(InitialScreen.cardPanel, "playerWithPlayerScreen");

@@ -67,7 +67,7 @@ public class InitialScreen extends JFrame {
         JButton button2 = new JButton("2 Players");
         button2.addActionListener(e -> {
             cardLayout.show(cardPanel, "playerWithPlayerName");
-            playerWithPlayerName();
+            PlayerWithPlayerName.PlayerWithPlayerNameInitialization();
         });
 
         buttonPanel.add(button1);
@@ -77,9 +77,5 @@ public class InitialScreen extends JFrame {
         panel.add(buttonPanel, gbc);
 
         return panel;
-    }
-
-    private void playerWithPlayerName() {
-        new PlayerWithPlayerName();
     }
 }
