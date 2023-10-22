@@ -11,6 +11,7 @@ import javax.swing.text.DocumentFilter;
 public class PlayerWithPlayerName {
     public static Player player1;
     public static Player player2;
+    public static JLabel error;
     public static void PlayerWithPlayerNameInitialization() {
         JPanel cardPanel = InitialScreen.cardPanel;
         JPanel playerWithPlayerName = (JPanel) cardPanel.getComponent(2);
@@ -22,8 +23,9 @@ public class PlayerWithPlayerName {
         JLabel Player2Label = new JLabel("Enter Player 2 username");
         JButton StartButton = new JButton("Fight!");
         JButton InitialScreenButton = new JButton("Back");
+        error = new JLabel("You must enter a username");
 
-        InitialScreenButton.setBounds(10, 10, 50, 20);
+        InitialScreenButton.setBounds(10, 10, 80, 20);
         StartButton.setBounds(310, 140, 80, 20);
         Player1.setBounds(88, 70, 200, 20);
         Player2.setBounds(428, 70, 200, 20);
@@ -37,11 +39,13 @@ public class PlayerWithPlayerName {
         playerWithPlayerName.add(Player2Label);
         playerWithPlayerName.add(StartButton);
         playerWithPlayerName.add(InitialScreenButton);
+        playerWithPlayerName.add(error);
 
         InitialScreenButton.addActionListener(e -> {
             InitialScreen.cardLayout.show(InitialScreen.cardPanel, "initial");
             player1 = null;
             player2 = null;
+            error.setVisible(false);
         });
 
         StartButton.addActionListener(e -> {
@@ -52,14 +56,12 @@ public class PlayerWithPlayerName {
                 Player1.setText("");
                 Player2.setText("");
 
-                new PlayerWithPlayer();
+                PlayerWithPlayer.PlayerWithPlayerInitialization();
                 InitialScreen.cardLayout.show(InitialScreen.cardPanel, "playerWithPlayerScreen");
             } else {
-                JLabel error = new JLabel("You must enter a username");
                 error.setBounds(266, 170, 250, 20);
                 playerWithPlayerName.add(error);
-                playerWithPlayerName.revalidate();
-                playerWithPlayerName.repaint();
+                error.setVisible(true);
             }
         });
     }

@@ -7,7 +7,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class PlayerWithPlayer {
-    public PlayerWithPlayer() {
+    public static void PlayerWithPlayerInitialization() {
         JPanel cardPanel = InitialScreen.cardPanel;
         JPanel playerWithPlayerScreen = (JPanel) cardPanel.getComponent(1);
         playerWithPlayerScreen.setLayout(null);
@@ -25,7 +25,7 @@ public class PlayerWithPlayer {
 
         JLabel player1Name = new JLabel(player1.getName());
         JLabel player2Name = new JLabel(player2.getName());
-        JButton InitialScreenButton = new JButton("Back");
+        JButton InitialScreenButton = new JButton("End Game");
 
         InitialScreenButton.addActionListener(e -> {
             InitialScreen.cardLayout.show(InitialScreen.cardPanel, "initial");
@@ -35,9 +35,10 @@ public class PlayerWithPlayer {
             player2Name.setText("");
             player1Name.repaint();
             player2Name.repaint();
+            PlayerWithPlayerName.error.setVisible(false);
         });
 
-        InitialScreenButton.setBounds(10, 10, 50, 20);
+        InitialScreenButton.setBounds(10, 10, 140, 20);
         Player1ButtonA.setBounds(70, 100, 70, 30);
         Player1ButtonS.setBounds(140, 100, 70, 30);
         Player1ButtonD.setBounds(210, 100, 70, 30);
@@ -76,22 +77,22 @@ public class PlayerWithPlayer {
 
                 if (key == KeyEvent.VK_A) {
                     Player1ButtonA.doClick();
-                    System.out.println("A");
+                    Player1ButtonAAttack();
                 } else if (key == KeyEvent.VK_S) {
                     Player1ButtonS.doClick();
-                    System.out.println("S");
+                    Player1ButtonSAttack();
                 } else if (key == KeyEvent.VK_D) {
                     Player1ButtonD.doClick();
-                    System.out.println("D");
+                    Player1ButtonDAttack();
                 } else if (key == KeyEvent.VK_J) {
                     Player2ButtonJ.doClick();
-                    System.out.println("J");
+                    Player1ButtonJAttack();
                 } else if (key == KeyEvent.VK_K) {
                     Player2ButtonK.doClick();
-                    System.out.println("K");
+                    Player1ButtonKAttack();
                 } else if (key == KeyEvent.VK_L) {
                     Player2ButtonL.doClick();
-                    System.out.println("L");
+                    Player1ButtonLAttack();
                 }
             }
         });
@@ -101,5 +102,29 @@ public class PlayerWithPlayer {
 
         cardPanel.revalidate();
         cardPanel.repaint();
+    }
+
+    public static void Player1ButtonAAttack() {
+
+    }
+
+    public static void Player1ButtonSAttack() {
+
+    }
+
+    public static void Player1ButtonDAttack() {
+
+    }
+
+    public static void Player1ButtonJAttack() {
+
+    }
+
+    public static void Player1ButtonKAttack() {
+
+    }
+
+    public static void Player1ButtonLAttack() {
+
     }
 }

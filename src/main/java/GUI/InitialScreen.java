@@ -2,6 +2,8 @@ package GUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 public class InitialScreen extends JFrame {
     public static JPanel cardPanel;
@@ -59,6 +61,22 @@ public class InitialScreen extends JFrame {
         panel.add(label2, gbc);
         panel.add(label3, gbc);
 
+        JButton gameHistory = new JButton("Game History");
+        gameHistory.addActionListener(e -> {
+            String filePath = "../Misc/GameHistory.json";
+            File jsonFile = new File(filePath);
+            if (Desktop.isDesktopSupported()) {
+                Desktop desktop = Desktop.getDesktop();
+                try {
+                    desktop.open(jsonFile);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            } else {
+                System.out.println("Desktop is not supported on this platform.");
+            }
+        });
+
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
         JButton button1 = new JButton("1 Player");
@@ -72,6 +90,7 @@ public class InitialScreen extends JFrame {
 
         buttonPanel.add(button1);
         buttonPanel.add(button2);
+        buttonPanel.add(gameHistory);
 
         gbc.gridy = 100;
         panel.add(buttonPanel, gbc);
