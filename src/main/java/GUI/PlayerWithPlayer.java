@@ -7,36 +7,47 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class PlayerWithPlayer {
-    public static void PlayerWithPlayerInitialization() {
-        JPanel cardPanel = InitialScreen.cardPanel;
-        JPanel playerWithPlayerScreen = (JPanel) cardPanel.getComponent(1);
+    private static final JProgressBar hpProgressBarPlayer1 = new JProgressBar();
+    private static final JProgressBar hpProgressBarPlayer2 = new JProgressBar();
+    private static final JPanel cardPanel = InitialScreen.cardPanel;
+    private static final JPanel playerWithPlayerScreen = (JPanel) cardPanel.getComponent(1);
+    private static final JButton Player1ButtonA = new JButton("M");
+    private static final JButton Player1ButtonS = new JButton("S");
+    private static final JButton Player1ButtonD = new JButton("Sw");
+    private static final JButton Player2ButtonJ = new JButton("M");
+    private static final JButton Player2ButtonK = new JButton("S");
+    private static final JButton Player2ButtonL = new JButton("Sw");
+    private static final JLabel player1Name = new JLabel();
+    private static final JLabel player2Name = new JLabel();
+    private static final JButton InitialScreenButton = new JButton("End Game");
+    private static Player player1 = null;
+    private static Player player2 = null;
+    public static void PlayerWithPlayerGame() {
+        hpProgressBarPlayer1.setStringPainted(true);
+        hpProgressBarPlayer2.setStringPainted(true);
         playerWithPlayerScreen.setLayout(null);
 
-        Player player1 = PlayerWithPlayerName.player1;
-        Player player2 = PlayerWithPlayerName.player2;
+        player1 = PlayerWithPlayerName.player1;
+        player2 = PlayerWithPlayerName.player2;
+        player1Name.setText(player1.getName());
+        player2Name.setText(player2.getName());
 
-        JButton Player1ButtonA = new JButton("M");
-        JButton Player1ButtonS = new JButton("S");
-        JButton Player1ButtonD = new JButton("Sw");
-
-        JButton Player2ButtonJ = new JButton("M");
-        JButton Player2ButtonK = new JButton("S");
-        JButton Player2ButtonL = new JButton("Sw");
-
-        JLabel player1Name = new JLabel(player1.getName());
-        JLabel player2Name = new JLabel(player2.getName());
-        JButton InitialScreenButton = new JButton("End Game");
+        player1Name.setHorizontalAlignment(JLabel.CENTER);
+        player2Name.setHorizontalAlignment(JLabel.CENTER);
 
         InitialScreenButton.addActionListener(e -> {
             InitialScreen.cardLayout.show(InitialScreen.cardPanel, "initial");
-            PlayerWithPlayerName.player1 = null;
-            PlayerWithPlayerName.player2 = null;
+            player1 = null;
+            player2 = null;
             player1Name.setText("");
             player2Name.setText("");
             player1Name.repaint();
             player2Name.repaint();
             PlayerWithPlayerName.error.setVisible(false);
         });
+
+        hpProgressBarPlayer1.setBounds(78, 75, 196, 20);
+        hpProgressBarPlayer2.setBounds(428, 75, 196, 20);
 
         InitialScreenButton.setBounds(10, 10, 140, 20);
         Player1ButtonA.setBounds(70, 100, 70, 30);
@@ -47,8 +58,8 @@ public class PlayerWithPlayer {
         Player2ButtonK.setBounds(490, 100, 70, 30);
         Player2ButtonL.setBounds(560, 100, 70, 30);
 
-        player1Name.setBounds(140, 50, 100, 20);
-        player2Name.setBounds(490, 50, 100, 20);
+        player1Name.setBounds(127, 50, 100, 20);
+        player2Name.setBounds(477, 50, 100, 20);
 
         playerWithPlayerScreen.add(InitialScreenButton);
 
@@ -62,6 +73,9 @@ public class PlayerWithPlayer {
 
         playerWithPlayerScreen.add(player1Name);
         playerWithPlayerScreen.add(player2Name);
+
+        playerWithPlayerScreen.add(hpProgressBarPlayer1);
+        playerWithPlayerScreen.add(hpProgressBarPlayer2);
 
         Player1ButtonA.setEnabled(false);
         Player1ButtonS.setEnabled(false);

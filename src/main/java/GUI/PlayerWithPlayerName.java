@@ -12,17 +12,16 @@ public class PlayerWithPlayerName {
     public static Player player1;
     public static Player player2;
     public static JLabel error;
+    private static final JTextField Player1 = new JTextField(10);
+    private static final JTextField Player2 = new JTextField(10);
+    private static final JLabel Player1Label = new JLabel("Enter Player 1 username");
+    private static final JLabel Player2Label = new JLabel("Enter Player 2 username");
+    private static final JButton StartButton = new JButton("Fight!");
+    private static final JButton InitialScreenButton = new JButton("Back");
+    private static final JPanel cardPanel = InitialScreen.cardPanel;
+    private static final JPanel playerWithPlayerName = (JPanel) cardPanel.getComponent(2);
     public static void PlayerWithPlayerNameInitialization() {
-        JPanel cardPanel = InitialScreen.cardPanel;
-        JPanel playerWithPlayerName = (JPanel) cardPanel.getComponent(2);
         playerWithPlayerName.setLayout(null);
-
-        JTextField Player1 = new JTextField(10);
-        JTextField Player2 = new JTextField(10);
-        JLabel Player1Label = new JLabel("Enter Player 1 username");
-        JLabel Player2Label = new JLabel("Enter Player 2 username");
-        JButton StartButton = new JButton("Fight!");
-        JButton InitialScreenButton = new JButton("Back");
         error = new JLabel("You must enter a username");
 
         InitialScreenButton.setBounds(10, 10, 80, 20);
@@ -58,7 +57,7 @@ public class PlayerWithPlayerName {
                 Player1.setText("");
                 Player2.setText("");
 
-                PlayerWithPlayer.PlayerWithPlayerInitialization();
+                PlayerWithPlayer.PlayerWithPlayerGame();
                 InitialScreen.cardLayout.show(InitialScreen.cardPanel, "playerWithPlayerScreen");
             } else {
                 error.setBounds(266, 170, 250, 20);
