@@ -63,7 +63,7 @@ public class InitialScreen extends JFrame {
 
         JButton gameHistory = new JButton("Game History");
         gameHistory.addActionListener(e -> {
-            String filePath = "../Misc/GameHistory.json";
+            String filePath = "../Misc/History.json";
             File jsonFile = new File(filePath);
             if (Desktop.isDesktopSupported()) {
                 Desktop desktop = Desktop.getDesktop();
