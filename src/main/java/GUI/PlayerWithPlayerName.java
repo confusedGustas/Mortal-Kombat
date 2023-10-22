@@ -46,6 +46,8 @@ public class PlayerWithPlayerName {
             player1 = null;
             player2 = null;
             error.setVisible(false);
+            Player1.setText("");
+            Player2.setText("");
         });
 
         StartButton.addActionListener(e -> {
