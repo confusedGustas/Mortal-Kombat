@@ -7,8 +7,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class PlayerWithPlayer {
-    private static final JProgressBar hpProgressBarPlayer1 = new JProgressBar();
-    private static final JProgressBar hpProgressBarPlayer2 = new JProgressBar();
+    private static final JProgressBar hpProgressBarPlayer1 = new JProgressBar(0, 3000);
+    private static final JProgressBar hpProgressBarPlayer2 = new JProgressBar(0, 3000);
     private static final JPanel cardPanel = InitialScreen.cardPanel;
     private static final JPanel playerWithPlayerScreen = (JPanel) cardPanel.getComponent(1);
     private static final JButton Player1ButtonA = new JButton("M");
@@ -22,13 +22,23 @@ public class PlayerWithPlayer {
     private static final JButton InitialScreenButton = new JButton("End Game");
     private static Player player1 = null;
     private static Player player2 = null;
+
     public static void PlayerWithPlayerGame() {
-        hpProgressBarPlayer1.setStringPainted(true);
-        hpProgressBarPlayer2.setStringPainted(true);
+        playerWithPlayerScreen.setFocusable(true);
+        playerWithPlayerScreen.requestFocusInWindow();
         playerWithPlayerScreen.setLayout(null);
 
         player1 = PlayerWithPlayerName.player1;
         player2 = PlayerWithPlayerName.player2;
+
+        hpProgressBarPlayer1.setValue(player1.getHP());
+        hpProgressBarPlayer2.setValue(player2.getHP());
+        hpProgressBarPlayer1.setStringPainted(true);
+        hpProgressBarPlayer2.setStringPainted(true);
+
+        hpProgressBarPlayer1.setString(String.valueOf(player1.getHP()));
+        hpProgressBarPlayer2.setString(String.valueOf(player1.getHP()));
+
         player1Name.setText(player1.getName());
         player2Name.setText(player2.getName());
 
@@ -90,55 +100,61 @@ public class PlayerWithPlayer {
                 int key = e.getKeyCode();
 
                 if (key == KeyEvent.VK_A) {
-                    Player1ButtonA.doClick();
                     Player1ButtonAAttack();
                 } else if (key == KeyEvent.VK_S) {
-                    Player1ButtonS.doClick();
                     Player1ButtonSAttack();
                 } else if (key == KeyEvent.VK_D) {
-                    Player1ButtonD.doClick();
                     Player1ButtonDAttack();
                 } else if (key == KeyEvent.VK_J) {
-                    Player2ButtonJ.doClick();
                     Player1ButtonJAttack();
                 } else if (key == KeyEvent.VK_K) {
-                    Player2ButtonK.doClick();
                     Player1ButtonKAttack();
                 } else if (key == KeyEvent.VK_L) {
-                    Player2ButtonL.doClick();
                     Player1ButtonLAttack();
                 }
+
+                hpProgressBarPlayer1.repaint();
+                hpProgressBarPlayer2.repaint();
             }
         });
-
-        playerWithPlayerScreen.setFocusable(true);
-        playerWithPlayerScreen.requestFocusInWindow();
 
         cardPanel.revalidate();
         cardPanel.repaint();
     }
 
     public static void Player1ButtonAAttack() {
-
+        player1.AttackM();
+        hpProgressBarPlayer1.setValue(player1.getHP());
+        hpProgressBarPlayer1.setString(String.valueOf(player1.getHP()));
     }
 
     public static void Player1ButtonSAttack() {
-
+        player1.AttackS();
+        hpProgressBarPlayer1.setValue(player1.getHP());
+        hpProgressBarPlayer1.setString(String.valueOf(player1.getHP()));
     }
 
     public static void Player1ButtonDAttack() {
-
+        player1.AttackSw();
+        hpProgressBarPlayer1.setValue(player1.getHP());
+        hpProgressBarPlayer1.setString(String.valueOf(player1.getHP()));
     }
 
     public static void Player1ButtonJAttack() {
-
+        player2.AttackM();
+        hpProgressBarPlayer2.setValue(player2.getHP());
+        hpProgressBarPlayer2.setString(String.valueOf(player2.getHP()));
     }
 
     public static void Player1ButtonKAttack() {
-
+        player2.AttackS();
+        hpProgressBarPlayer2.setValue(player2.getHP());
+        hpProgressBarPlayer2.setString(String.valueOf(player2.getHP()));
     }
 
     public static void Player1ButtonLAttack() {
-
+        player2.AttackSw();
+        hpProgressBarPlayer2.setValue(player2.getHP());
+        hpProgressBarPlayer2.setString(String.valueOf(player2.getHP()));
     }
 }

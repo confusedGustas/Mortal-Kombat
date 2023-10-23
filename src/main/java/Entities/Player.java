@@ -15,4 +15,20 @@ public class Player {
     public String getName() {
         return name;
     }
+
+    public int getHP() {
+        return HP;
+    }
+
+    public void AttackM() {
+        HP -= M;
+    }
+
+    public void AttackS() {
+        HP -= S;
+    }
+
+    public void AttackSw() {
+        HP -= Sw;
+    }
 }
