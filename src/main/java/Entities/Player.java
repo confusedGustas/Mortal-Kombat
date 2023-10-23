@@ -2,7 +2,8 @@ package Entities;
 
 public class Player {
     public final String name;
-    private int HP, M, S, Sw;
+    private int HP;
+    private final int M, S, Sw;
 
     public Player(String playerName) {
         this.name = playerName;
@@ -14,6 +15,10 @@ public class Player {
 
     public String getName() {
         return name;
+    }
+
+    public void setHP(int HP) {
+        this.HP = HP;
     }
 
     public int getHP() {
