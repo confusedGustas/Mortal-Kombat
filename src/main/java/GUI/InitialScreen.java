@@ -14,40 +14,36 @@ public class InitialScreen extends JFrame {
     }
 
     private void initializeUI() {
-        this.setTitle("Mortal Kombat");
-        this.setSize(700, 400);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int centerX = (screenSize.width - this.getWidth()) / 2;
-        int centerY = (screenSize.height - this.getHeight()) / 2;
-        this.setLocation(centerX, centerY);
-
+        setTitle("Mortal Kombat");
+        setSize(700, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        centerWindowOnScreen();
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
 
-        // Create the initial screen
-        JPanel initialScreen = createInitialScreen();
+        createAndAddPanels();
 
-        // Create new screen
-        JPanel playerWithPlayerScreen = new JPanel();
-        JPanel playerWithAIScreen = new JPanel();
-        JPanel playerWithPlayerName = new JPanel();
-        JPanel playerWithAIName = new JPanel();
+        setVisible(true);
+    }
 
-        cardPanel.add(initialScreen, "initial");
-        cardPanel.add(playerWithPlayerScreen, "playerWithPlayerScreen");
-        cardPanel.add(playerWithPlayerName, "playerWithPlayerName");
-        cardPanel.add(playerWithAIScreen, "playerWithAIScreen");
-        cardPanel.add(playerWithAIName, "playerWithAIName");
+    private void centerWindowOnScreen() {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int centerX = (screenSize.width - getWidth()) / 2;
+        int centerY = (screenSize.height - getHeight()) / 2;
+        setLocation(centerX, centerY);
+    }
 
-        this.add(cardPanel, BorderLayout.CENTER);
-
-        this.setVisible(true);
+    private void createAndAddPanels() {
+        cardPanel.add(createInitialScreen(), "initial");
+        cardPanel.add(new JPanel(), "playerWithPlayerScreen");
+        cardPanel.add(new JPanel(), "playerWithPlayerName");
+        cardPanel.add(new JPanel(), "playerWithAIScreen");
+        cardPanel.add(new JPanel(), "playerWithAIName");
+        add(cardPanel, BorderLayout.CENTER);
     }
 
     private JPanel createInitialScreen() {
         JPanel panel = new JPanel(new GridBagLayout());
-
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.anchor = GridBagConstraints.CENTER;
@@ -61,24 +57,15 @@ public class InitialScreen extends JFrame {
         panel.add(label2, gbc);
         panel.add(label3, gbc);
 
-        JButton gameHistory = new JButton("Game History");
-        gameHistory.addActionListener(e -> {
-            try {
-                String currentDirectory = System.getProperty("user.dir") + "/src/main/java/Misc/History.json";
-                File jsonFile = new File(currentDirectory);
-                Desktop desktop = Desktop.getDesktop();
-                desktop.open(jsonFile);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
-
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
-        JButton button1 = new JButton("1 Player");
+        JButton gameHistory = createButton("Game History");
+        gameHistory.addActionListener(e -> openGameHistory());
+
+        JButton button1 = createButton("1 Player");
         button1.addActionListener(e -> cardLayout.show(cardPanel, "playerWithAIName"));
 
-        JButton button2 = new JButton("2 Players");
+        JButton button2 = createButton("2 Players");
         button2.addActionListener(e -> {
             cardLayout.show(cardPanel, "playerWithPlayerName");
             PlayerWithPlayerName.PlayerWithPlayerNameInitialization();
@@ -92,5 +79,20 @@ public class InitialScreen extends JFrame {
         panel.add(buttonPanel, gbc);
 
         return panel;
+    }
+
+    private JButton createButton(String text) {
+        return new JButton(text);
+    }
+
+    private void openGameHistory() {
+        try {
+            String currentDirectory = System.getProperty("user.dir") + "/src/main/java/Misc/History.json";
+            File jsonFile = new File(currentDirectory);
+            Desktop desktop = Desktop.getDesktop();
+            desktop.open(jsonFile);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 }

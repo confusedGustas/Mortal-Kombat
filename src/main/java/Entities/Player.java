@@ -1,39 +1,38 @@
 package Entities;
 
 public class Player {
-    public final String name;
+    private final String name;
     private int HP;
-    private final int M, S, Sw;
+    private final int M = 35;
+    private final int S = 25;
+    private final int Sw = 20;
 
     public Player(String playerName) {
-        this.name = playerName;
-        this.HP = 3000;
-        this.M = 35;
-        this.S = 25;
-        this.Sw = 20;
+        name = playerName;
+        HP = 3000;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setHP(int HP) {
-        this.HP = HP;
-    }
-
     public int getHP() {
         return HP;
     }
 
-    public void AttackM() {
-        HP -= M;
+    private void applyDamage(int damage) {
+        HP -= damage;
     }
 
-    public void AttackS() {
-        HP -= S;
+    public void attackM() {
+        applyDamage(M);
     }
 
-    public void AttackSw() {
-        HP -= Sw;
+    public void attackS() {
+        applyDamage(S);
+    }
+
+    public void attackSw() {
+        applyDamage(Sw);
     }
 }
