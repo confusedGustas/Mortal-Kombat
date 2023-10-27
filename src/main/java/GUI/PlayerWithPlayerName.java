@@ -12,8 +12,8 @@ public class PlayerWithPlayerName {
     public static Player player1;
     public static Player player2;
     public static JLabel error;
-    private static final JTextField Player1 = createTextField(10);
-    private static final JTextField Player2 = createTextField(10);
+    private static final JTextField Player1 = createTextField();
+    private static final JTextField Player2 = createTextField();
     private static final JLabel Player1Label = createLabel("Enter Player 1 username");
     private static final JLabel Player2Label = createLabel("Enter Player 2 username");
     private static final JButton StartButton = createButton("Fight!");
@@ -90,8 +90,8 @@ public class PlayerWithPlayerName {
         error.setVisible(true);
     }
 
-    private static JTextField createTextField(int columns) {
-        return new JTextField(columns);
+    private static JTextField createTextField() {
+        return new JTextField(10);
     }
 
     private static JLabel createLabel(String text) {

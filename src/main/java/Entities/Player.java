@@ -3,9 +3,9 @@ package Entities;
 public class Player {
     private final String name;
     private int HP;
-    private final int M = 35;
-    private final int S = 25;
-    private final int Sw = 20;
+    private static final int M = 35;
+    private static final int S = 25;
+    private static final int Sw = 20;
 
     public Player(String playerName) {
         name = playerName;
