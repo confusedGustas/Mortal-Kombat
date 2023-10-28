@@ -1,9 +1,9 @@
-import GUI.*;
-
-import javax.swing.*;
+import GUI.InitialScreen;
+import GUI.PlayerWithPlayerInput;
 
 public class Main {
     public static void main(String[] args) {
-        JFrame mainFrame = new InitialScreen();
+        InitialScreen.initializeFrame();
+        PlayerWithPlayerInput.initializationPlayerWithPlayerInputUI();
     }
 }
