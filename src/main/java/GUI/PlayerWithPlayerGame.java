@@ -1,10 +1,14 @@
     package GUI;
 
     import Entities.Player;
+    import org.json.JSONArray;
+    import org.json.JSONTokener;
+
     import javax.swing.*;
     import java.awt.*;
     import java.awt.event.KeyAdapter;
     import java.awt.event.KeyEvent;
+    import java.util.Random;
 
     public class PlayerWithPlayerGame {
         private static final int MAX_HP = 3000;
@@ -26,19 +30,42 @@
         private static Player player1 = null;
         private static Player player2 = null;
         private static final JFrame frame = InitialScreen.getMainFrame();
+        private static boolean keyReleased = true;
+        private static Player currentPlayer;
+        private static final JLabel turnPlayer1 = new JLabel("<- Turn   ");
+        private static final JLabel turnPlayer2 = new JLabel("   Turn ->");
+
         public static void initializationPlayerWithPlayerGame() {
             initializeUIComponents();
             addActionListeners();
             frame.requestFocusInWindow();
             isInitialized = true;
+
+            pickPlayer();
         }
 
         public static void updateGame() {
             updateUsernames();
+            pickPlayer();
             frame.requestFocusInWindow();
         }
 
-        public static void updateUsernames() {
+        private static void pickPlayer() {
+            currentPlayer = new Random().nextBoolean() ? player1 : player2;
+            toggleTurn();
+        }
+
+        private static void toggleTurn() {
+            if (currentPlayer == player1) {
+                turnPlayer2.setVisible(false);
+                turnPlayer1.setVisible(true);
+            } else {
+                turnPlayer1.setVisible(false);
+                turnPlayer2.setVisible(true);
+            }
+        }
+
+        private static void updateUsernames() {
             player1 = PlayerWithPlayerInput.player1;
             player2 = PlayerWithPlayerInput.player2;
             updateHPBarValues();
@@ -68,8 +95,11 @@
             playerWithPlayerScreen.add(player2Name);
             playerWithPlayerScreen.add(hpProgressBarPlayer1);
             playerWithPlayerScreen.add(hpProgressBarPlayer2);
+            playerWithPlayerScreen.add(turnPlayer1);
+            playerWithPlayerScreen.add(turnPlayer2);
 
             disableButtons();
+            setOpaque();
         }
 
         private static void setComponentBounds() {
@@ -84,6 +114,8 @@
             Player2ButtonL.setBounds(560, 100, 70, 30);
             player1Name.setBounds(127, 50, 100, 20);
             player2Name.setBounds(477, 50, 100, 20);
+            turnPlayer1.setBounds(313, 75, 80, 20);
+            turnPlayer2.setBounds(323, 75, 80, 20);
         }
 
         private static void resetPlayers() {
@@ -94,6 +126,15 @@
             player1Name.repaint();
             player2Name.repaint();
             PlayerWithPlayerInput.error.setVisible(false);
+        }
+
+        private static void setOpaque() {
+            Player1ButtonA.setOpaque(true);
+            Player1ButtonS.setOpaque(true);
+            Player1ButtonD.setOpaque(true);
+            Player2ButtonJ.setOpaque(true);
+            Player2ButtonK.setOpaque(true);
+            Player2ButtonL.setOpaque(true);
         }
 
         private static void disableButtons() {
@@ -130,19 +171,38 @@
                 public void keyPressed(KeyEvent e) {
                     int key = e.getKeyCode();
 
-                    if (key == KeyEvent.VK_A) {
-                        player1ButtonAttack(Player1ButtonA);
-                    } else if (key == KeyEvent.VK_S) {
-                        player1ButtonAttack(Player1ButtonS);
-                    } else if (key == KeyEvent.VK_D) {
-                        player1ButtonAttack(Player1ButtonD);
-                    } else if (key == KeyEvent.VK_J) {
-                        player2ButtonAttack(Player2ButtonJ);
-                    } else if (key == KeyEvent.VK_K) {
-                        player2ButtonAttack(Player2ButtonK);
-                    } else if (key == KeyEvent.VK_L) {
-                        player2ButtonAttack(Player2ButtonL);
+                    if (keyReleased) {
+                        if (currentPlayer == player1) {
+                            if (key == KeyEvent.VK_A) {
+                                changeButtonColor(Player1ButtonA, Color.RED);
+                                player1ButtonAttack(Player1ButtonA);
+                            } else if (key == KeyEvent.VK_S) {
+                                changeButtonColor(Player1ButtonS, Color.RED);
+                                player1ButtonAttack(Player1ButtonS);
+                            } else if (key == KeyEvent.VK_D) {
+                                changeButtonColor(Player1ButtonD, Color.RED);
+                                player1ButtonAttack(Player1ButtonD);
+                            }
+                        } else if (currentPlayer == player2) {
+                            if (key == KeyEvent.VK_J) {
+                                changeButtonColor(Player2ButtonJ, Color.GREEN);
+                                player2ButtonAttack(Player2ButtonJ);
+                            } else if (key == KeyEvent.VK_K) {
+                                changeButtonColor(Player2ButtonK, Color.GREEN);
+                                player2ButtonAttack(Player2ButtonK);
+                            } else if (key == KeyEvent.VK_L) {
+                                changeButtonColor(Player2ButtonL, Color.GREEN);
+                                player2ButtonAttack(Player2ButtonL);
+                            }
+                        }
+                        keyReleased = false;
                     }
+                }
+
+                @Override
+                public void keyReleased(KeyEvent e) {
+                    keyReleased = true;
+                    resetButtonColors();
                 }
             });
 
@@ -150,6 +210,29 @@
                 cardLayout.show(cardPanel, "initial");
                 resetPlayers();
             });
+        }
+
+        private static void togglePlayer() {
+            if (currentPlayer == player1) {
+                currentPlayer = player2;
+            } else {
+                currentPlayer = player1;
+            }
+        }
+
+        private static void changeButtonColor(JButton button, Color color) {
+            button.setBackground(color);
+            togglePlayer();
+            toggleTurn();
+        }
+
+        private static void resetButtonColors() {
+            Player1ButtonA.setBackground(UIManager.getColor("Button.background"));
+            Player1ButtonS.setBackground(UIManager.getColor("Button.background"));
+            Player1ButtonD.setBackground(UIManager.getColor("Button.background"));
+            Player2ButtonJ.setBackground(UIManager.getColor("Button.background"));
+            Player2ButtonK.setBackground(UIManager.getColor("Button.background"));
+            Player2ButtonL.setBackground(UIManager.getColor("Button.background"));
         }
 
         private static void player1ButtonAttack(JButton button) {

@@ -74,14 +74,8 @@ public class InitialScreen {
     }
 
     private static void addActionListener() {
-        button1.addActionListener(e -> {
-            cardLayout.show(cardPanel, "playerWithAIInput");
-            // TODO: AI GAME PLAY
-        });
-
-        button2.addActionListener(e -> {
-            cardLayout.show(cardPanel, "playerWithPlayerInput");
-        });
+        button1.addActionListener(e -> cardLayout.show(cardPanel, "playerWithAIInput"));
+        button2.addActionListener(e -> cardLayout.show(cardPanel, "playerWithPlayerInput"));
 
         gameHistory.addActionListener(e -> {
             try {
