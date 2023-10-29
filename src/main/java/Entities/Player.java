@@ -9,7 +9,7 @@ public class Player {
 
     public Player(String playerName) {
         name = playerName;
-        HP = 3000;
+        HP = 100;
     }
 
     public String getName() {
@@ -34,5 +34,21 @@ public class Player {
 
     public void attackSw() {
         applyDamage(Sw);
+    }
+
+    public int getM() {
+        return M;
+    }
+
+    public int getS() {
+        return S;
+    }
+
+    public int getSw() {
+        return Sw;
+    }
+
+    public void setHP(int HP) {
+        this.HP = HP;
     }
 }

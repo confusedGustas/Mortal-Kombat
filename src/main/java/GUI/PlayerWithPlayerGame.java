@@ -1,8 +1,7 @@
     package GUI;
 
     import Entities.Player;
-    import org.json.JSONArray;
-    import org.json.JSONTokener;
+    import Logic.PlayerWithPlayerLogic;
 
     import javax.swing.*;
     import java.awt.*;
@@ -11,7 +10,7 @@
     import java.util.Random;
 
     public class PlayerWithPlayerGame {
-        private static final int MAX_HP = 3000;
+        private static final int MAX_HP = 100;
         public static Boolean isInitialized = false;
         private static final JProgressBar hpProgressBarPlayer1 = createProgressBar();
         private static final JProgressBar hpProgressBarPlayer2 = createProgressBar();
@@ -31,11 +30,14 @@
         private static Player player2 = null;
         private static final JFrame frame = InitialScreen.getMainFrame();
         private static boolean keyReleased = true;
+        private static boolean isListenerEnabled = true;
         private static Player currentPlayer;
         private static final JLabel turnPlayer1 = new JLabel("<- Turn   ");
         private static final JLabel turnPlayer2 = new JLabel("   Turn ->");
+        private static final JLabel winner = new JLabel("");
 
         public static void initializationPlayerWithPlayerGame() {
+            PlayerWithPlayerLogic.initializationPlayers();
             initializeUIComponents();
             addActionListeners();
             frame.requestFocusInWindow();
@@ -45,8 +47,11 @@
         }
 
         public static void updateGame() {
+            PlayerWithPlayerLogic.initializationPlayers();
             updateUsernames();
             pickPlayer();
+            winner.setText("");
+            isListenerEnabled = true;
             frame.requestFocusInWindow();
         }
 
@@ -171,7 +176,7 @@
                 public void keyPressed(KeyEvent e) {
                     int key = e.getKeyCode();
 
-                    if (keyReleased) {
+                    if (keyReleased && isListenerEnabled) {
                         if (currentPlayer == player1) {
                             if (key == KeyEvent.VK_A) {
                                 changeButtonColor(Player1ButtonA, Color.RED);
@@ -237,23 +242,49 @@
 
         private static void player1ButtonAttack(JButton button) {
             if (button.getText().equals("M")) {
-                player1.attackM();
+                PlayerWithPlayerLogic.player1AttackM();
             } else if (button.getText().equals("S")) {
-                player1.attackS();
+                PlayerWithPlayerLogic.player1AttackS();
             } else if (button.getText().equals("Sw")) {
-                player1.attackSw();
+                PlayerWithPlayerLogic.player1AttackSw();
             }
             updateHPBarValues();
         }
 
         private static void player2ButtonAttack(JButton button) {
             if (button.getText().equals("M")) {
-                player2.attackM();
+                PlayerWithPlayerLogic.player2AttackM();
             } else if (button.getText().equals("S")) {
-                player2.attackS();
+                PlayerWithPlayerLogic.player2AttackS();
             } else if (button.getText().equals("Sw")) {
-                player2.attackSw();
+                PlayerWithPlayerLogic.player2AttackSw();
             }
             updateHPBarValues();
+        }
+
+        private static void setWinnerBoundsAndComponents() {
+            int labelWidth = winner.getPreferredSize().width;
+            int x = (frame.getWidth() - labelWidth) / 2;
+            winner.setBounds(x, 25, labelWidth + 200, 20);
+            playerWithPlayerScreen.add(winner);
+            winner.repaint();
+        }
+
+        public static void displayWinnerPlayer1(Player Player) {
+            setWinnerComponents(Player);
+            player2.setHP(0);
+            turnPlayer2.setVisible(false);
+        }
+
+        public static void displayWinnerPlayer2(Player Player) {
+            setWinnerComponents(Player);
+            player1.setHP(0);
+            turnPlayer1.setVisible(false);
+        }
+
+        private static void setWinnerComponents(Player player) {
+            winner.setText(player.getName() + " wins the game!");
+            setWinnerBoundsAndComponents();
+            isListenerEnabled = false;
         }
     }

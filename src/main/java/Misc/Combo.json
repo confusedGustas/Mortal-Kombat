@@ -1,0 +1,28 @@
+{
+  "ComboAttacks": [
+    {
+      "ComboID": 1,
+      "Combo": "M + M + Sw",
+      "Damage": 150,
+      "Heal": 25
+    },
+    {
+      "ComboID": 2,
+      "Combo": "S + Sw + S",
+      "Damage": 100,
+      "Heal": 10
+    },
+    {
+      "ComboID": 3,
+      "Combo": "S + S + S",
+      "Damage": 200,
+      "Heal": 30
+    },
+    {
+      "ComboID": 4,
+      "Combo": "S + M + Sw",
+      "Damage": 250,
+      "Heal": 60
+    }
+  ]
+}
