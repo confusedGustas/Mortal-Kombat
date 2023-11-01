@@ -9,7 +9,8 @@ public class InitialScreen {
     private static JPanel cardPanel;
     private static CardLayout cardLayout;
     private static JFrame mainFrame;
-    private static JButton gameHistory;
+    private static JButton currentGameHistory;
+    private static JButton everyGameHistory;
     private static JButton button1;
     private static JButton button2;
 
@@ -40,6 +41,7 @@ public class InitialScreen {
         cardPanel.add(new JPanel(), "playerWithPlayerInput");
         cardPanel.add(new JPanel(), "playerWithAIGame");
         cardPanel.add(new JPanel(), "playerWithAIInput");
+        cardPanel.add(new JPanel(), "currentGameHistoryDisplay");
     }
 
     private static JPanel initializeFrameUI() {
@@ -57,11 +59,13 @@ public class InitialScreen {
 
         button1 = new JButton("1 Player");
         button2 = new JButton("2 Players");
-        gameHistory = new JButton("Game History");
+        everyGameHistory = new JButton("Every Game History");
+        currentGameHistory = new JButton("Current Game History");
 
         buttonPanel.add(button1);
         buttonPanel.add(button2);
-        buttonPanel.add(gameHistory);
+        buttonPanel.add(everyGameHistory);
+        buttonPanel.add(currentGameHistory);
 
         panel.add(label1, gbc);
         panel.add(label2, gbc);
@@ -77,7 +81,7 @@ public class InitialScreen {
         button1.addActionListener(e -> cardLayout.show(cardPanel, "playerWithAIInput"));
         button2.addActionListener(e -> cardLayout.show(cardPanel, "playerWithPlayerInput"));
 
-        gameHistory.addActionListener(e -> {
+        everyGameHistory.addActionListener(e -> {
             try {
                 String currentDirectory = System.getProperty("user.dir") + "/src/main/java/Misc/History.json";
                 File jsonFile = new File(currentDirectory);
@@ -87,6 +91,8 @@ public class InitialScreen {
                 throw new RuntimeException(ex);
             }
         });
+
+        currentGameHistory.addActionListener(e -> cardLayout.show(cardPanel, "currentGameHistoryDisplay"));
     }
 
     public static JFrame getMainFrame() {
