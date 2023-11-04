@@ -2,7 +2,6 @@
 
     import Entities.Player;
     import Logic.PlayerWithPlayerLogic;
-
     import javax.swing.*;
     import java.awt.*;
     import java.awt.event.KeyAdapter;
@@ -10,22 +9,22 @@
     import java.util.Random;
 
     public class PlayerWithPlayerGame {
-        private static final int MAX_HP = 100;
+        private static final int MAX_HP = 1200;
         public static Boolean isInitialized = false;
         private static final JProgressBar hpProgressBarPlayer1 = createProgressBar();
         private static final JProgressBar hpProgressBarPlayer2 = createProgressBar();
         private static final JPanel cardPanel = InitialScreen.getCardPanel();
         private static final CardLayout cardLayout = InitialScreen.getCardLayout();
         private static final JPanel playerWithPlayerScreen = (JPanel) cardPanel.getComponent(1);
-        private static final JButton Player1ButtonA = createButton("M");
-        private static final JButton Player1ButtonS = createButton("S");
-        private static final JButton Player1ButtonD = createButton("Sw");
-        private static final JButton Player2ButtonJ = createButton("M");
-        private static final JButton Player2ButtonK = createButton("S");
-        private static final JButton Player2ButtonL = createButton("Sw");
+        private static final JButton Player1ButtonA = new JButton("M");
+        private static final JButton Player1ButtonS = new JButton("S");
+        private static final JButton Player1ButtonD = new JButton("Sw");
+        private static final JButton Player2ButtonJ = new JButton("M");
+        private static final JButton Player2ButtonK = new JButton("S");
+        private static final JButton Player2ButtonL = new JButton("Sw");
         private static final JLabel player1Name = new JLabel();
         private static final JLabel player2Name = new JLabel();
-        private static final JButton InitialScreenButton = createButton("End Game");
+        private static final JButton InitialScreenButton = new JButton("End Game");
         private static Player player1 = null;
         private static Player player2 = null;
         private static final JFrame frame = InitialScreen.getMainFrame();
@@ -73,6 +72,8 @@
         private static void updateUsernames() {
             player1 = PlayerWithPlayerInput.player1;
             player2 = PlayerWithPlayerInput.player2;
+            player1.setOpponent(player2);
+            player2.setOpponent(player1);
             updateHPBarValues();
             player1Name.setText(player1.getName());
             player2Name.setText(player2.getName());
@@ -159,11 +160,7 @@
             return progressBar;
         }
 
-        private static JButton createButton(String text) {
-            return new JButton(text);
-        }
-
-        private static void updateHPBarValues() {
+        public static void updateHPBarValues() {
             hpProgressBarPlayer1.setValue(player1.getHP());
             hpProgressBarPlayer2.setValue(player2.getHP());
             hpProgressBarPlayer1.setString(String.valueOf(player1.getHP()));
@@ -180,24 +177,24 @@
                         if (currentPlayer == player1) {
                             if (key == KeyEvent.VK_A) {
                                 changeButtonColor(Player1ButtonA, Color.RED);
-                                player1ButtonAttack(Player1ButtonA);
+                                playerButtonAttack(player1, Player1ButtonA);
                             } else if (key == KeyEvent.VK_S) {
                                 changeButtonColor(Player1ButtonS, Color.RED);
-                                player1ButtonAttack(Player1ButtonS);
+                                playerButtonAttack(player1, Player1ButtonS);
                             } else if (key == KeyEvent.VK_D) {
                                 changeButtonColor(Player1ButtonD, Color.RED);
-                                player1ButtonAttack(Player1ButtonD);
+                                playerButtonAttack(player1, Player1ButtonD);
                             }
                         } else if (currentPlayer == player2) {
                             if (key == KeyEvent.VK_J) {
                                 changeButtonColor(Player2ButtonJ, Color.GREEN);
-                                player2ButtonAttack(Player2ButtonJ);
+                                playerButtonAttack(player2, Player2ButtonJ);
                             } else if (key == KeyEvent.VK_K) {
                                 changeButtonColor(Player2ButtonK, Color.GREEN);
-                                player2ButtonAttack(Player2ButtonK);
+                                playerButtonAttack(player2, Player2ButtonK);
                             } else if (key == KeyEvent.VK_L) {
                                 changeButtonColor(Player2ButtonL, Color.GREEN);
-                                player2ButtonAttack(Player2ButtonL);
+                                playerButtonAttack(player2, Player2ButtonL);
                             }
                         }
                         keyReleased = false;
@@ -240,26 +237,13 @@
             Player2ButtonL.setBackground(UIManager.getColor("Button.background"));
         }
 
-        private static void player1ButtonAttack(JButton button) {
-            if (button.getText().equals("M")) {
-                PlayerWithPlayerLogic.player1AttackM();
-            } else if (button.getText().equals("S")) {
-                PlayerWithPlayerLogic.player1AttackS();
-            } else if (button.getText().equals("Sw")) {
-                PlayerWithPlayerLogic.player1AttackSw();
-            }
-            updateHPBarValues();
-        }
+        private static void playerButtonAttack(Player player, JButton button) {
+            String buttonText = button.getText();
 
-        private static void player2ButtonAttack(JButton button) {
-            if (button.getText().equals("M")) {
-                PlayerWithPlayerLogic.player2AttackM();
-            } else if (button.getText().equals("S")) {
-                PlayerWithPlayerLogic.player2AttackS();
-            } else if (button.getText().equals("Sw")) {
-                PlayerWithPlayerLogic.player2AttackSw();
+            if (buttonText.equals("M") || buttonText.equals("S") || buttonText.equals("Sw")) {
+                PlayerWithPlayerLogic.playerAttack(player, buttonText);
+                updateHPBarValues();
             }
-            updateHPBarValues();
         }
 
         private static void setWinnerBoundsAndComponents() {
@@ -270,16 +254,16 @@
             winner.repaint();
         }
 
-        public static void displayWinnerPlayer1(Player Player) {
-            setWinnerComponents(Player);
-            player2.setHP(0);
-            turnPlayer2.setVisible(false);
-        }
+        public static void displayWinner(Player player) {
+            setWinnerComponents(player);
 
-        public static void displayWinnerPlayer2(Player Player) {
-            setWinnerComponents(Player);
-            player1.setHP(0);
-            turnPlayer1.setVisible(false);
+            if (player == player1) {
+                player2.setHP(0);
+                turnPlayer2.setVisible(false);
+            } else if (player == player2) {
+                player1.setHP(0);
+                turnPlayer1.setVisible(false);
+            }
         }
 
         private static void setWinnerComponents(Player player) {

@@ -1,28 +1,20 @@
 {
   "ComboAttacks": [
     {
-      "ComboID": 1,
-      "Combo": "M + M + Sw",
-      "Damage": 150,
-      "Heal": 25
+      "Combo": "MMSw",
+      "Damage": 150
     },
     {
-      "ComboID": 2,
-      "Combo": "S + Sw + S",
-      "Damage": 100,
-      "Heal": 10
+      "Combo": "SSwS",
+      "Damage": 100
     },
     {
-      "ComboID": 3,
-      "Combo": "S + S + S",
-      "Damage": 200,
-      "Heal": 30
+      "Combo": "SSS",
+      "Damage": 200
     },
     {
-      "ComboID": 4,
-      "Combo": "S + M + Sw",
-      "Damage": 250,
-      "Heal": 60
+      "Combo": "SMSw",
+      "Damage": 250
     }
   ]
 }
