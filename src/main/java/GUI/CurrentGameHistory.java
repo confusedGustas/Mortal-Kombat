@@ -37,14 +37,19 @@ public class CurrentGameHistory {
     }
 
     public static void setText(
-            LinkedList<String> player1History, LinkedList<String> player2History, Player player1, Player winner) {
-        textArea.append(player1.getName() + " attack history: ");
+            LinkedList<String> player1History, LinkedList<String> player2History, Player loser, Player winner) {
+        textArea.append(loser.getName() + " attack history: ");
         textArea.append(String.valueOf(player1History));
         textArea.append("\n");
         textArea.append(winner.getName() + " attack history: ");
         textArea.append(String.valueOf(player2History));
         textArea.append("\n");
-        textArea.append(winner.getName() + " won the game: ");
+
+        if (winner.getHP() > 0 && loser.getHP() > 0) {
+            textArea.append("Game ended");
+        } else {
+            textArea.append(winner.getName() + " won the game: ");
+        }
         textArea.append("\n\n");
     }
 }

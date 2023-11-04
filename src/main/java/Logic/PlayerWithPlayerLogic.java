@@ -28,7 +28,7 @@ public class PlayerWithPlayerLogic {
     }
 
 
-    private static void jsonBuilder(Player playerWinner, Player playerLoser) {
+    public static void jsonBuilder(Player playerWinner, Player playerLoser) {
         String jsonFilePath = System.getProperty("user.dir") + "/src/main/java/Misc/History.json";
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectWriter prettyPrinter = objectMapper.writerWithDefaultPrettyPrinter();
@@ -60,7 +60,12 @@ public class PlayerWithPlayerLogic {
             newJsonObject.put(playerLoser.getName() + " attack history: ",
                     String.join(", ", playerLoser.getAttackHistory()));
         }
-        newJsonObject.put("Winner: ", playerWinner.getName());
+
+        if (playerWinner.getHP() > 0 && playerLoser.getHP() > 0) {
+            newJsonObject.put("Winner: ", "none, game ended");
+        } else {
+            newJsonObject.put("Winner: ", playerWinner.getName());
+        }
         jsonArray.add(newJsonObject);
 
         try {

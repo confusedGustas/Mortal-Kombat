@@ -24,7 +24,7 @@
         private static final JButton Player2ButtonL = new JButton("Sw");
         private static final JLabel player1Name = new JLabel();
         private static final JLabel player2Name = new JLabel();
-        private static final JButton InitialScreenButton = new JButton("End Game");
+        private static final JButton InitialScreenButton = new JButton("Exit");
         private static Player player1;
         private static Player player2;
         private static final JFrame frame = InitialScreen.getMainFrame();
@@ -208,6 +208,8 @@
 
             InitialScreenButton.addActionListener(e -> {
                 cardLayout.show(cardPanel, "initial");
+                PlayerWithPlayerLogic.jsonBuilder(player1, player2);
+                CurrentGameHistory.setText(player1.getAttackHistory(), player2.getAttackHistory(), player1, player2);
                 resetPlayers();
             });
         }
