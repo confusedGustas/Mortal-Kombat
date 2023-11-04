@@ -25,8 +25,8 @@
         private static final JLabel player1Name = new JLabel();
         private static final JLabel player2Name = new JLabel();
         private static final JButton InitialScreenButton = new JButton("End Game");
-        private static Player player1 = null;
-        private static Player player2 = null;
+        private static Player player1;
+        private static Player player2;
         private static final JFrame frame = InitialScreen.getMainFrame();
         private static boolean keyReleased = true;
         private static boolean isListenerEnabled = true;
@@ -36,7 +36,6 @@
         private static final JLabel winner = new JLabel("");
 
         public static void initializationPlayerWithPlayerGame() {
-            PlayerWithPlayerLogic.initializationPlayers();
             initializeUIComponents();
             addActionListeners();
             frame.requestFocusInWindow();
@@ -46,7 +45,6 @@
         }
 
         public static void updateGame() {
-            PlayerWithPlayerLogic.initializationPlayers();
             updateUsernames();
             pickPlayer();
             winner.setText("");

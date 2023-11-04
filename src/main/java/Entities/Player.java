@@ -18,7 +18,7 @@ public class Player {
     private static int SSwS;
     private static int SSS;
     private static int SMSw;
-    private static final LinkedList<String> attackHistory = new LinkedList<>();
+    private final LinkedList<String> attackHistory = new LinkedList<>();
 
     public Player(String playerName) {
         name = playerName;
@@ -88,7 +88,6 @@ public class Player {
 
     public void attack(String attackType) {
         applyDamage(getAttackPower(attackType));
-        setAttackHistory(attackType);
     }
 
     public void setOpponent(Player opponent) {

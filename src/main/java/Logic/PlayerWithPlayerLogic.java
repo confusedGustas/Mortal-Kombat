@@ -3,7 +3,6 @@ package Logic;
 import Entities.Player;
 import GUI.CurrentGameHistory;
 import GUI.PlayerWithPlayerGame;
-import GUI.PlayerWithPlayerInput;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -12,30 +11,24 @@ import java.io.*;
 import java.util.*;
 
 public class PlayerWithPlayerLogic {
-    private static Player player1;
-    private static Player player2;
-
-    public static void initializationPlayers() {
-        player1 = PlayerWithPlayerInput.player1;
-        player2 = PlayerWithPlayerInput.player2;
-    }
     public static void playerAttack(Player player, String attack) {
         player.setAttackHistory(attack);
         if (player.getOpponent().getHP() <= player.getAttackPower(attack)) {
-            endGame(player1, player2);
+            endGame(player, player.getOpponent());
         } else {
             player.getOpponent().attack(attack);
         }
     }
 
-    private static void endGame(Player player1, Player player2) {
-        PlayerWithPlayerGame.displayWinner(player1);
-        CurrentGameHistory.setText(player1.getAttackHistory(), player2.getAttackHistory(), player1, player2);
-        jsonBuilder(player2);
+    private static void endGame(Player playerWinner, Player playerLoser) {
+        PlayerWithPlayerGame.displayWinner(playerWinner);
+        CurrentGameHistory.setText(playerWinner.getAttackHistory(), playerLoser.getAttackHistory(),
+                playerWinner, playerLoser);
+        jsonBuilder(playerWinner, playerLoser);
     }
 
 
-    private static void jsonBuilder(Player player) {
+    private static void jsonBuilder(Player playerWinner, Player playerLoser) {
         String jsonFilePath = System.getProperty("user.dir") + "/src/main/java/Misc/History.json";
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectWriter prettyPrinter = objectMapper.writerWithDefaultPrettyPrinter();
@@ -56,18 +49,18 @@ public class PlayerWithPlayerLogic {
 
         ObjectNode newJsonObject = objectMapper.createObjectNode();
 
-        if (Objects.equals(player1.getName(), player2.getName())) {
-            newJsonObject.put("Player 1: " + player1.getName() + " attack history: ",
-                    String.valueOf(player1.getAttackHistory()));
-            newJsonObject.put("Player 2: " + player2.getName() + " attack history: ",
-                    String.valueOf(player2.getAttackHistory()));
+        if (Objects.equals(playerWinner.getName(), playerWinner.getOpponent().getName())) {
+            newJsonObject.put("Player 1: " + playerWinner.getName() + " attack history: ",
+                    String.valueOf(playerWinner.getAttackHistory()));
+            newJsonObject.put("Player 2: " + playerLoser.getName() + " attack history: ",
+                    String.valueOf(playerLoser.getAttackHistory()));
         } else {
-            newJsonObject.put(player1.getName() + " attack history: ",
-                    String.join(", ", player1.getAttackHistory()));
-            newJsonObject.put(player2.getName() + " attack history: ",
-                    String.join(", ", player2.getAttackHistory()));
+            newJsonObject.put(playerWinner.getName() + " attack history: ",
+                    String.join(", ", playerWinner.getAttackHistory()));
+            newJsonObject.put(playerLoser.getName() + " attack history: ",
+                    String.join(", ", playerLoser.getAttackHistory()));
         }
-        newJsonObject.put("Winner: ", player.getName());
+        newJsonObject.put("Winner: ", playerWinner.getName());
         jsonArray.add(newJsonObject);
 
         try {
