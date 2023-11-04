@@ -10,7 +10,7 @@ import java.util.LinkedList;
 public class Player {
     private Player opponent;
     private final String name;
-    private int HP = 1200;
+    private int HP = 300;
     private static final int M = 35;
     private static final int S = 25;
     private static final int Sw = 20;
@@ -87,7 +87,7 @@ public class Player {
     }
 
     public void attack(String attackType) {
-        opponent.applyDamage(getAttackPower(attackType));
+        applyDamage(getAttackPower(attackType));
         setAttackHistory(attackType);
     }
 

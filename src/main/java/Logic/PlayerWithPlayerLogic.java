@@ -22,7 +22,7 @@ public class PlayerWithPlayerLogic {
     public static void playerAttack(Player player, String attack) {
         player.setAttackHistory(attack);
         if (player.getOpponent().getHP() <= player.getAttackPower(attack)) {
-            endGame(player2, player1);
+            endGame(player1, player2);
         } else {
             player.getOpponent().attack(attack);
         }

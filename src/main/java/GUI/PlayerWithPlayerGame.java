@@ -9,7 +9,7 @@
     import java.util.Random;
 
     public class PlayerWithPlayerGame {
-        private static final int MAX_HP = 1200;
+        private static final int MAX_HP = 300;
         public static Boolean isInitialized = false;
         private static final JProgressBar hpProgressBarPlayer1 = createProgressBar();
         private static final JProgressBar hpProgressBarPlayer2 = createProgressBar();
