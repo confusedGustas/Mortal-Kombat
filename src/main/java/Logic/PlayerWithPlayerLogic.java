@@ -22,11 +22,8 @@ public class PlayerWithPlayerLogic {
 
     private static void endGame(Player playerWinner, Player playerLoser) {
         PlayerWithPlayerGame.displayWinner(playerWinner);
-        CurrentGameHistory.setText(playerWinner.getAttackHistory(), playerLoser.getAttackHistory(),
-                playerWinner, playerLoser);
         jsonBuilder(playerWinner, playerLoser);
     }
-
 
     public static void jsonBuilder(Player playerWinner, Player playerLoser) {
         String jsonFilePath = System.getProperty("user.dir") + "/src/main/java/Misc/History.json";
