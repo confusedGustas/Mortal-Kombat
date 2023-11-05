@@ -9,10 +9,11 @@ public class InitialScreen {
     private static JPanel cardPanel;
     private static CardLayout cardLayout;
     private static JFrame mainFrame;
-    private static JButton currentGameHistory;
-    private static JButton everyGameHistory;
-    private static JButton button1;
-    private static JButton button2;
+    private static final JButton currentGameHistory = new JButton("Current Game History");
+    private static final JButton everyGameHistory = new JButton("Every Game History");
+    private static final JButton button1 = new JButton("1 Player");
+    private static final JButton button2 = new JButton("2 Players");
+    private static final JButton exitGameButton = new JButton("Exit Game");
 
     public static void initializeFrame() {
         mainFrame = new JFrame();
@@ -57,15 +58,11 @@ public class InitialScreen {
         JLabel label2 = new JLabel("Please select how many players will be playing");
         JLabel label3 = new JLabel("Note: If you pick 1 Player, you will be fighting against an AI");
 
-        button1 = new JButton("1 Player");
-        button2 = new JButton("2 Players");
-        everyGameHistory = new JButton("Every Game History");
-        currentGameHistory = new JButton("Current Game History");
-
         buttonPanel.add(button1);
         buttonPanel.add(button2);
         buttonPanel.add(everyGameHistory);
         buttonPanel.add(currentGameHistory);
+        buttonPanel.add(exitGameButton, gbc);
 
         panel.add(label1, gbc);
         panel.add(label2, gbc);
@@ -93,6 +90,8 @@ public class InitialScreen {
         });
 
         currentGameHistory.addActionListener(e -> cardLayout.show(cardPanel, "currentGameHistoryDisplay"));
+
+        exitGameButton.addActionListener(e -> System.exit(0));
     }
 
     public static JFrame getMainFrame() {
