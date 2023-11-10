@@ -1,7 +1,6 @@
 package GUI;
 
 import Entities.Player;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.LinkedList;
@@ -15,6 +14,7 @@ public class CurrentGameHistory {
     private static final JScrollPane scrollPane = new JScrollPane(textArea);
 
     public static void initializationCurrentGameHistory() {
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         textArea.setEditable(false);
         textArea.setBackground(Color.WHITE);
         textArea.setLineWrap(true);

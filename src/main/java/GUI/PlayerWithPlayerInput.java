@@ -22,6 +22,14 @@ public class PlayerWithPlayerInput {
     private static final JPanel cardPanel = InitialScreen.getCardPanel();
     private static final CardLayout cardLayout  = InitialScreen.getCardLayout();
     private static final JPanel playerWithPlayerInput = (JPanel) cardPanel.getComponent(2);
+    private static final JLabel attackM = new JLabel("M attack: 35 Damage with a 0.7 Second cool down");
+    private static final JLabel attackS = new JLabel("S attack: 25 Damage with a 0.5 Second cool down");
+    private static final JLabel attackSw = new JLabel("Sw attack: 20 Damage with a 0.3 Second cool down");
+    private static final JLabel comboAttackMMSw = new JLabel("MMSw Combo attack: 150 Damage");
+    private static final JLabel comboAttackSSwS = new JLabel("SSwS Combo attack: 100 Damage");
+    private static final JLabel comboAttackSSS = new JLabel("SSS Combo attack: 200 Damage");
+    private static final JLabel comboAttackSMSw = new JLabel("SMSw Combo attack: 250 Damage");
+
     public static void initializationPlayerWithPlayerInputUI() {
         playerWithPlayerInput.setLayout(null);
 
@@ -40,6 +48,13 @@ public class PlayerWithPlayerInput {
         playerWithPlayerInput.add(StartButton);
         playerWithPlayerInput.add(InitialScreenButton);
         playerWithPlayerInput.add(error);
+        playerWithPlayerInput.add(attackM);
+        playerWithPlayerInput.add(attackS);
+        playerWithPlayerInput.add(attackSw);
+        playerWithPlayerInput.add(comboAttackMMSw);
+        playerWithPlayerInput.add(comboAttackSSwS);
+        playerWithPlayerInput.add(comboAttackSSS);
+        playerWithPlayerInput.add(comboAttackSMSw);
     }
 
     private static void setBounds() {
@@ -49,6 +64,13 @@ public class PlayerWithPlayerInput {
         Player2.setBounds(428, 70, 200, 20);
         Player1Label.setBounds(112, 100, 200, 10);
         Player2Label.setBounds(452, 100, 200, 10);
+        attackSw.setBounds(182, 200, 326, 20);
+        attackM.setBounds(185, 220, 326, 20);
+        attackS.setBounds(187, 240, 326, 20);
+        comboAttackMMSw.setBounds(240, 260, 220, 20);
+        comboAttackSMSw.setBounds(242, 280, 220, 20);
+        comboAttackSSwS.setBounds(244, 300, 220, 20);
+        comboAttackSSS.setBounds(248, 320, 220, 20);
     }
 
     private static void resetPlayers() {

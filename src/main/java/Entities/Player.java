@@ -10,7 +10,7 @@ import java.util.LinkedList;
 public class Player {
     private Player opponent;
     private final String name;
-    private int HP = 300;
+    private int HP = 2000;
     private static final int M = 35;
     private static final int S = 25;
     private static final int Sw = 20;
@@ -19,6 +19,7 @@ public class Player {
     private static int SSS;
     private static int SMSw;
     private final LinkedList<String> attackHistory = new LinkedList<>();
+    private final LinkedList<String> comboHistory = new LinkedList<>();
 
     public Player(String playerName) {
         name = playerName;
@@ -96,5 +97,21 @@ public class Player {
 
     public Player getOpponent() {
         return opponent;
+    }
+
+    public LinkedList<String> getComboHistory() {
+        return comboHistory;
+    }
+
+    public void setComboHistory(String attack) {
+        comboHistory.add(attack);
+    }
+
+    public void clearComboHistory() {
+        comboHistory.clear();
+    }
+
+    public void removeFirstComboHistory() {
+        comboHistory.removeFirst();
     }
 }

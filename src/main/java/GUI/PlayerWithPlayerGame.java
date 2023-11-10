@@ -1,15 +1,15 @@
     package GUI;
 
+    import javax.swing.Timer;
     import Entities.Player;
     import Logic.PlayerWithPlayerLogic;
     import javax.swing.*;
     import java.awt.*;
     import java.awt.event.KeyAdapter;
     import java.awt.event.KeyEvent;
-    import java.util.Random;
 
     public class PlayerWithPlayerGame {
-        private static final int MAX_HP = 300;
+        private static final int MAX_HP = 2000;
         public static Boolean isInitialized = false;
         private static final JProgressBar hpProgressBarPlayer1 = createProgressBar();
         private static final JProgressBar hpProgressBarPlayer2 = createProgressBar();
@@ -22,49 +22,35 @@
         private static final JButton Player2ButtonJ = new JButton("M");
         private static final JButton Player2ButtonK = new JButton("S");
         private static final JButton Player2ButtonL = new JButton("Sw");
+        public static Timer Player1ButtonATimer = createTimer(700, Player1ButtonA);
+        public static Timer Player1ButtonSTimer = createTimer(500, Player1ButtonS);
+        public static Timer Player1ButtonDTimer = createTimer(300, Player1ButtonD);
+        public static Timer Player2ButtonJTimer = createTimer(700, Player2ButtonJ);
+        public static Timer Player2ButtonKTimer = createTimer(500, Player2ButtonK);
+        public static Timer Player2ButtonLTimer = createTimer(300, Player2ButtonL);
         private static final JLabel player1Name = new JLabel();
         private static final JLabel player2Name = new JLabel();
         private static final JButton InitialScreenButton = new JButton("Exit");
         private static Player player1;
         private static Player player2;
         private static final JFrame frame = InitialScreen.getMainFrame();
-        private static boolean keyReleased = true;
         private static boolean isListenerEnabled = true;
-        private static Player currentPlayer;
-        private static final JLabel turnPlayer1 = new JLabel("<- Turn   ");
-        private static final JLabel turnPlayer2 = new JLabel("   Turn ->");
         private static final JLabel winner = new JLabel("");
+        public static final JTextArea textArea = new JTextArea();
+        private static final JScrollPane scrollPane = new JScrollPane(textArea);
 
         public static void initializationPlayerWithPlayerGame() {
             initializeUIComponents();
             addActionListeners();
             frame.requestFocusInWindow();
             isInitialized = true;
-
-            pickPlayer();
         }
 
         public static void updateGame() {
             updateUsernames();
-            pickPlayer();
             winner.setText("");
             isListenerEnabled = true;
             frame.requestFocusInWindow();
-        }
-
-        private static void pickPlayer() {
-            currentPlayer = new Random().nextBoolean() ? player1 : player2;
-            toggleTurn();
-        }
-
-        private static void toggleTurn() {
-            if (currentPlayer == player1) {
-                turnPlayer2.setVisible(false);
-                turnPlayer1.setVisible(true);
-            } else {
-                turnPlayer1.setVisible(false);
-                turnPlayer2.setVisible(true);
-            }
         }
 
         private static void updateUsernames() {
@@ -99,8 +85,13 @@
             playerWithPlayerScreen.add(player2Name);
             playerWithPlayerScreen.add(hpProgressBarPlayer1);
             playerWithPlayerScreen.add(hpProgressBarPlayer2);
-            playerWithPlayerScreen.add(turnPlayer1);
-            playerWithPlayerScreen.add(turnPlayer2);
+
+            textArea.setEditable(false);
+            textArea.setBackground(Color.WHITE);
+            textArea.setLineWrap(true);
+            textArea.setWrapStyleWord(true);
+            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+            playerWithPlayerScreen.add(scrollPane);
 
             disableButtons();
             setOpaque();
@@ -118,8 +109,7 @@
             Player2ButtonL.setBounds(560, 100, 70, 30);
             player1Name.setBounds(127, 50, 100, 20);
             player2Name.setBounds(477, 50, 100, 20);
-            turnPlayer1.setBounds(313, 75, 80, 20);
-            turnPlayer2.setBounds(323, 75, 80, 20);
+            scrollPane.setBounds(200, 150,300, 200);
         }
 
         private static void resetPlayers() {
@@ -165,44 +155,27 @@
             hpProgressBarPlayer2.setString(String.valueOf(player2.getHP()));
         }
 
+        public static Timer createTimer(int time, JButton button) {
+            Timer timer = new Timer(time, e -> resetButtonColors(button));
+            timer.setRepeats(false);
+            return timer;
+        }
+
         private static void addActionListeners() {
             frame.addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyPressed(KeyEvent e) {
                     int key = e.getKeyCode();
-
-                    if (keyReleased && isListenerEnabled) {
-                        if (currentPlayer == player1) {
-                            if (key == KeyEvent.VK_A) {
-                                changeButtonColor(Player1ButtonA, Color.RED);
-                                playerButtonAttack(player1, Player1ButtonA);
-                            } else if (key == KeyEvent.VK_S) {
-                                changeButtonColor(Player1ButtonS, Color.RED);
-                                playerButtonAttack(player1, Player1ButtonS);
-                            } else if (key == KeyEvent.VK_D) {
-                                changeButtonColor(Player1ButtonD, Color.RED);
-                                playerButtonAttack(player1, Player1ButtonD);
-                            }
-                        } else if (currentPlayer == player2) {
-                            if (key == KeyEvent.VK_J) {
-                                changeButtonColor(Player2ButtonJ, Color.GREEN);
-                                playerButtonAttack(player2, Player2ButtonJ);
-                            } else if (key == KeyEvent.VK_K) {
-                                changeButtonColor(Player2ButtonK, Color.GREEN);
-                                playerButtonAttack(player2, Player2ButtonK);
-                            } else if (key == KeyEvent.VK_L) {
-                                changeButtonColor(Player2ButtonL, Color.GREEN);
-                                playerButtonAttack(player2, Player2ButtonL);
-                            }
+                    if (isListenerEnabled) {
+                        switch (key) {
+                            case KeyEvent.VK_A -> ButtonPress(Player1ButtonATimer, Player1ButtonA, player1);
+                            case KeyEvent.VK_S -> ButtonPress(Player1ButtonSTimer, Player1ButtonS, player1);
+                            case KeyEvent.VK_D -> ButtonPress(Player1ButtonDTimer, Player1ButtonD, player1);
+                            case KeyEvent.VK_J -> ButtonPress(Player2ButtonJTimer, Player2ButtonJ, player2);
+                            case KeyEvent.VK_K -> ButtonPress(Player2ButtonKTimer, Player2ButtonK, player2);
+                            case KeyEvent.VK_L -> ButtonPress(Player2ButtonLTimer, Player2ButtonL, player2);
                         }
-                        keyReleased = false;
                     }
-                }
-
-                @Override
-                public void keyReleased(KeyEvent e) {
-                    keyReleased = true;
-                    resetButtonColors();
                 }
             });
 
@@ -211,30 +184,44 @@
                 PlayerWithPlayerLogic.jsonBuilder(player1, player2);
                 CurrentGameHistory.setText(player1.getAttackHistory(), player2.getAttackHistory(), player1, player2);
                 resetPlayers();
+                resetAllButtonColors();
+                resetAllTimers();
+                textArea.setText("");
             });
         }
 
-        private static void togglePlayer() {
-            if (currentPlayer == player1) {
-                currentPlayer = player2;
-            } else {
-                currentPlayer = player1;
+        private static void ButtonPress(Timer timer, JButton button, Player player) {
+            if (!timer.isRunning()) {
+                buttonSettings(button, player);
+                timer.start();
             }
         }
 
-        private static void changeButtonColor(JButton button, Color color) {
-            button.setBackground(color);
-            togglePlayer();
-            toggleTurn();
+        private static void buttonSettings(JButton button, Player player) {
+            playerButtonAttack(player, button);
+            button.setBackground(Color.RED);
         }
 
-        private static void resetButtonColors() {
+        private static void resetButtonColors(JButton button) {
+            button.setBackground(UIManager.getColor("Button.background"));
+        }
+
+        private static void resetAllButtonColors() {
             Player1ButtonA.setBackground(UIManager.getColor("Button.background"));
             Player1ButtonS.setBackground(UIManager.getColor("Button.background"));
             Player1ButtonD.setBackground(UIManager.getColor("Button.background"));
             Player2ButtonJ.setBackground(UIManager.getColor("Button.background"));
             Player2ButtonK.setBackground(UIManager.getColor("Button.background"));
             Player2ButtonL.setBackground(UIManager.getColor("Button.background"));
+        }
+
+        private static void resetAllTimers() {
+            Player1ButtonATimer.setDelay(0);
+            Player1ButtonSTimer.setDelay(0);
+            Player1ButtonDTimer.setDelay(0);
+            Player2ButtonJTimer.setDelay(0);
+            Player2ButtonKTimer.setDelay(0);
+            Player2ButtonLTimer.setDelay(0);
         }
 
         private static void playerButtonAttack(Player player, JButton button) {
@@ -259,10 +246,8 @@
 
             if (player == player1) {
                 player2.setHP(0);
-                turnPlayer2.setVisible(false);
             } else if (player == player2) {
                 player1.setHP(0);
-                turnPlayer1.setVisible(false);
             }
         }
 
