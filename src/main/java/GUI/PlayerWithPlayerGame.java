@@ -34,12 +34,35 @@
         private static Player player1;
         private static Player player2;
         private static final JFrame frame = InitialScreen.getMainFrame();
-        private static boolean isListenerEnabled = true;
+        private static boolean isListenerEnabled = false;
         private static final JLabel winner = new JLabel("");
         public static final JTextArea textArea = new JTextArea();
         private static final JScrollPane scrollPane = new JScrollPane(textArea);
+        private static int countdownValue = 5;
+        private static final JLabel countdownLabel = new JLabel("");
+        private static Timer timer;
+
+        public static void startCountdown() {
+            timer = new Timer(1000, e -> {
+                if (countdownValue > 2) {
+                    countdownLabel.setText("   " + (countdownValue - 2));
+                    countdownValue--;
+                } else if (countdownValue == 2) {
+                    countdownLabel.setText("FIGHT");
+                    countdownValue--;
+                } else {
+                    countdownLabel.setText("");
+                    isListenerEnabled = true;
+                    timer.stop();
+                    timer = null;
+                }
+            });
+
+            timer.start();
+        }
 
         public static void initializationPlayerWithPlayerGame() {
+            startCountdown();
             initializeUIComponents();
             addActionListeners();
             frame.requestFocusInWindow();
@@ -47,9 +70,9 @@
         }
 
         public static void updateGame() {
+            startCountdown();
             updateUsernames();
             winner.setText("");
-            isListenerEnabled = true;
             frame.requestFocusInWindow();
         }
 
@@ -85,6 +108,7 @@
             playerWithPlayerScreen.add(player2Name);
             playerWithPlayerScreen.add(hpProgressBarPlayer1);
             playerWithPlayerScreen.add(hpProgressBarPlayer2);
+            playerWithPlayerScreen.add(countdownLabel);
 
             textArea.setEditable(false);
             textArea.setBackground(Color.WHITE);
@@ -110,6 +134,7 @@
             player1Name.setBounds(127, 50, 100, 20);
             player2Name.setBounds(477, 50, 100, 20);
             scrollPane.setBounds(200, 150,300, 200);
+            countdownLabel.setBounds(335, 50, 60, 20);
         }
 
         private static void resetPlayers() {
@@ -187,6 +212,9 @@
                 resetAllButtonColors();
                 resetAllTimers();
                 textArea.setText("");
+                countdownLabel.setText("");
+                countdownValue = 5;
+                isListenerEnabled = false;
             });
         }
 

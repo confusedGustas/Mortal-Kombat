@@ -1,7 +1,7 @@
 package Logic;
 
 import Entities.Player;
-import GUI.PlayerWithPlayerGame;
+import GUI.PlayerWithAIGame;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.io.*;
 import java.util.*;
 
-public class PlayerWithPlayerLogic {
+public class PlayerWithAILogic {
     private static final LinkedList<Player> ObjectComboAttackHistory = new LinkedList<>();
 
     public static void playerAttack(Player player, String attack) {
@@ -27,12 +27,12 @@ public class PlayerWithPlayerLogic {
     }
 
     private static void viewAttackHistory(Player player, String attack) {
-        PlayerWithPlayerGame.textArea.append(player.getName() + " Attack: " + attack + " - " +
+        PlayerWithAIGame.textArea.append(player.getName() + " Attack: " + attack + " - " +
                 player.getAttackPower(attack) + "\n");
     }
 
     private static void endGame(Player playerWinner, Player playerLoser) {
-        PlayerWithPlayerGame.displayWinner(playerWinner);
+        PlayerWithAIGame.displayWinner(playerWinner);
         jsonBuilder(playerWinner, playerLoser);
     }
 
