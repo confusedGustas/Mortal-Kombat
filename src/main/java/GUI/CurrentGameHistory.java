@@ -10,7 +10,7 @@ public class CurrentGameHistory {
     private static final JPanel cardPanel = InitialScreen.getCardPanel();
     private static final CardLayout cardLayout  = InitialScreen.getCardLayout();
     private static final JPanel currentGameHistoryDisplay = (JPanel) cardPanel.getComponent(5);
-    private static final JTextArea textArea = new JTextArea();
+    public static final JTextArea textArea = new JTextArea();
     private static final JScrollPane scrollPane = new JScrollPane(textArea);
 
     public static void initializationCurrentGameHistory() {
@@ -48,7 +48,7 @@ public class CurrentGameHistory {
         if (winner.getHP() > 0 && loser.getHP() > 0) {
             textArea.append("Game ended");
         } else {
-            textArea.append(winner.getName() + " won the game: ");
+            textArea.append(winner.getName() + " won the game");
         }
         textArea.append("\n\n");
     }
