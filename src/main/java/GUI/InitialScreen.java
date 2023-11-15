@@ -1,6 +1,5 @@
 package GUI;
 
-import javax.net.ssl.KeyStoreBuilderParameters;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
